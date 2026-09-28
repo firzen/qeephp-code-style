@@ -1,0 +1,3 @@
+interface:
+  display_name: "QeePHP 代码书写与维护"
+  short_description: "维护 QeePHP 控制器、旧式 CLI、ActiveRecord 与公共 helper 的代码习惯"
