@@ -86,7 +86,23 @@ cd '/path/to/project'
 
 - 新增数组优先用 `[]`，缩进用 Tab；项目明确要求其他写法时从其约定。引入类型声明、返回类型等版本相关语法前，须确认实际 PHP 兼容范围。
 - 尽量不用 `??`，改用 `isset()`、三元表达式或明确分支；区分缺键与值为 null 时按含义选用 `array_key_exists()`。
-- 长调用和关联数组按多行展开，参数清晰分行、键值对各占一行、结束括号单独对齐。多行数组末项不加逗号，例如：
+- 长调用和关联数组按多行展开，参数清晰分行。多行关联数组的开头后立即换行，当前展开层级的每个键值对独占一行，不能把首项挤在 `return array(` 后或将多个同级键合并到一行；结束括号单独成行并与起始语句对齐，末项不加逗号。
+- `__define()` 等配置数组优先展开外层，结构简单的内层数组可保留单行；内层包含复杂表达式或多层结构、影响阅读时再展开，不要求递归拆开所有数组。整理已有 `array(...)` 时保留原语法。例如：
+
+```php
+return array(
+	'table_name' => 'mail_push_subscriptions',
+	'table_config' => array('pk' => 'id'),
+	'props' => array('id' => array('readonly' => true), 'created' => array('readonly' => true), 'updated' => array('readonly' => true)),
+	'attr_accessible' => '',
+	'attr_protected' => 'id',
+	'create_autofill' => array('created' => self::AUTOFILL_TIMESTAMP, 'updated' => self::AUTOFILL_TIMESTAMP),
+	'update_autofill' => array('updated' => self::AUTOFILL_TIMESTAMP),
+	'validations' => array()
+);
+```
+
+调用中的多行关联数组同样遵循上述规则：
 
 ```php
 $this->json(array(
